@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Wiskar</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin:700">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+</head>
+<script>
+        function modalOpen() {
+            let modal= document.querySelector('.modal')
+            modal.classList.add('open')
+            }
+        function modalClose() {
+            let modal= document.querySelector('.modal')
+            modal.classList.remove('open')
+            }
+
+ </script>
+<style>
+    .table {
+        background: #fff
+    }
+    .add {
+        margin: 15px
+    }
+    h3 {
+        margin: 15px
+    }
+    .head-container {
+        display: flex;
+        justify-content: space-between
+    }
+    .feature {
+        margin: 5px
+    }
+
+</style>
+<body class='table'>
+    <nav class="navbar navbar-light navbar-expand-md navbar navbar-expand-lg" style='width:100%; z-index:99;max-height:10%;background:#000;max-height:10%' id="mainNav">
+        <div class="container"><a class="navbar-brand js-scroll-trigger" href="/">Virtual World</a><button class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation" value="Menu"><i class="fa fa-bars"></i></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="nav navbar-nav ml-auto">
+                    <!-- <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link active js-scroll-trigger" href="#about"></a></li> -->
+                    <!-- <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link js-scroll-trigger" href="#download"></a></li> -->
+                    <!-- <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link js-scroll-trigger" href="#contact">Login</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class='container table'>
+        <div class='head-container'>
+            <h3>Worlds</h3>
+            <button type='button' onclick='modalOpen();' class='btn-default add'>Upload</button>
+        </div>
+        <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Add-ons</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Portal</td>
+            <td>
+                <img href="#" data-toggle="tooltip" title="multiplayer" class='feature' src="/people-2x.png">
+                <img href="#" data-toggle="tooltip" title="chat" class='feature' src="/chat-2x.png">
+                <img href="#" data-toggle="tooltip" title="teleport" class='feature' src="/aperture-2x.png">
+            </td>
+            <td><button type='button' onclick='go("Portal","portal")'class='btn-default'>Go</button></td>
+          </tr>
+          <tr>
+                <th scope="row">2</th>
+                <td>Hello world</td>
+                <td>
+                    <img href="#" data-toggle="tooltip" title="multiplayer" class='feature' src="/people-2x.png">
+                </td>
+                <td><button type='button' onclick='go("Helloworld","helloworld")'class='btn-default'>Go</button></td>
+            </tr>
+         
+        </tbody>
+      </table>
+      <div class="modal fade show" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><strong>Ready to start?</strong></h4><button onclick='modalClose()' type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                    <div class="modal-body">
+                        <p><strong>We're stoked you want to launch an experience. Things are still under construction, but join the waitlist and you'll be the first to hear when everything is ready!</strong></p>
+                        <div style="position: relative;"><label style="position: relative;width: 100%;">Email Address</label><input type="email" id='email' style="position: relative;"></div>
+                        <div style="position: relative;margin-top: 15px;"><button onclick='submit()' class="btn btn-primary" type="button">Join the waitlist</button></div>
+                    </div>
+                    <div class="modal-footer" style="position: relative;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+    <style>
+    .open {
+        display: inherit;
+    }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase-firestore.js"></script>
+    
+    
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyARjDjLcz6DT2_B2XTSFhJTzCCNH8_XbZ0",
+        authDomain: "pioneer-f39c1.firebaseapp.com",
+        databaseURL: "https://pioneer-f39c1.firebaseio.com",
+        projectId: "pioneer-f39c1",
+        storageBucket: "pioneer-f39c1.appspot.com",
+        messagingSenderId: "1007617369976",
+        appId: "1:1007617369976:web:ee32060ff211ccea"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+
+    submit = () => {
+        var ref = db.collection('emails')
+        let email = document.getElementById('email')
+
+        let r = Math.random().toString(36).substring(32);
+        if (email != null) {
+        ref.doc(email.value).set({
+            date: Date.now()
+            }, { merge: true })
+        .then(
+            email.setAttribute('style','border-style:solid;border-color:#00bb00')
+        )
+        }
+    }
+    go = (link, name) => {
+        var ref = db.collection('worlds')
+        let r = Date.now()
+        ref.doc(link).set(
+          { [Date.now()]: Date.now()}
+        , {merge:true})
+        .then(
+            function() {window.location.href=name}
+        )
+    }
+
+    
+          </script>
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+          <script>
+                $(document).ready(function(){
+                  $('[data-toggle="tooltip"]').tooltip();   
+                });
+                </script>
+          
+  

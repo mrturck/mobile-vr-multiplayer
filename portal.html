@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>VR Server</title>
+  <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+  <script src="https://cdn.rawgit.com/mrturck/aframe-joystick/master/joystick.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+
+  <!--  for demo  -->
+  <script src="https://unpkg.com/aframe-randomizer-components@3.0.2/dist/aframe-randomizer-components.min.js"></script>
+  <script src="https://unpkg.com/aframe-entity-generator-component@3.0.1/dist/aframe-entity-generator-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-aabb-collider-component@3.1.0/dist/aframe-aabb-collider-component.min.js"></script>
+
+  <script>
+    AFRAME.registerComponent('random-material', {
+      init: function () {
+        this.el.setAttribute('material', {
+          color: this.getRandomColor(),
+          metalness: Math.random(),
+          roughness: Math.random()
+        });
+      },
+      getRandomColor: function () {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+    });
+    AFRAME.registerComponent('random-torus-knot', {
+      init: function () {
+        this.el.setAttribute('geometry', {
+          primitive: 'torusKnot',
+          radius: Math.random() * 10,
+          radiusTubular: Math.random() * .75,
+          p: Math.round(Math.random() * 10),
+          q: Math.round(Math.random() * 10)
+        });
+      }
+    });
+  </script>
+  </head>
+   <body>
+  <a-scene vr-mode-ui="enabled: false"  background="color: #111">
+
+  <a-assets>
+    <img id='forest' src='img/forest.png'>
+  </a-assets>
+
+  <!-- create mixed environment -->
+        <a-entity environment="preset: dream"></a-entity>
+        <a-entity position="150 0 0" environment="preset: forest"></a-entity>
+        <a-entity position="-150 0 0" environment="preset: tron"></a-entity>
+        <!-- portal1 - forest -->
+        <a-box id='portal' material='opacity:0' position='0 1 -5' width='1' aabb-collider="objects: a-box" event-set__hitstart='width:3'></a-box>
+        <a-link scale='1.5 1.5 0' position='0 2 -4' peekMode='false'    image='#forest'></a-link>
+  </a-scene>
+
+   </body>
+   <!-- insert mods for creating user avatars, socket.io data, and chat mod -->
+   <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+   <script src="https://unpkg.com/aframe-lerp-component/dist/aframe-lerp-component.min.js"></script>
+    <script src = "/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src='js/socket.js'></script>
+    <link rel="stylesheet" href="css/chat.css"> 
+    <script src='js/chat.js'></script>
+    <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase.js"></script>
+    <script>
+      var user = ''
+      var token = ''
+    var config = {
+    apiKey: "AIzaSyARjDjLcz6DT2_B2XTSFhJTzCCNH8_XbZ0",
+    authDomain: "pioneer-f39c1.firebaseapp.com",
+    databaseURL: "https://pioneer-f39c1.firebaseio.com",
+    projectId: "pioneer-f39c1",
+    storageBucket: "pioneer-f39c1.appspot.com",
+    messagingSenderId: "1007617369976"
+    };
+    firebase.initializeApp(config);
+    var provider = new firebase.auth.GoogleAuthProvider();
+
+    login = () => {
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+    token = result.credential.accessToken;
+    user = result.user;
+    updateView();
+    }).catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
+    });
+    }
+
+    logout = () => {
+      user = ''
+      token = ''
+    }
+
+    updateView = () => {
+      if (user != '') {
+        document.getElementById('login').setAttribute('style','display:none')
+        document.getElementById('logout').setAttribute('style','display:inherit')
+      }
+      else {
+        document.getElementById('login').setAttribute('style','display:inherit')
+        document.getElementById('logout').setAttribute('style','display:none')
+
+      }
+    }
+
+    portal1 = () => {
+      let user = document.querySelector('.camera')
+      camera.setAttribute('position','150 2 0')
+      let scale =  document.getElementById('portal')
+      scale.setAttribute('width','1')
+    }
+
+     catchChange = () => {
+       console.log('checking')
+       let scale =  document.getElementById('portal')
+      if ( scale.getAttribute('width') == 3)  {
+        console.log(scale)
+        portal1()
+      }
+    }
+    const xy = setInterval(catchChange,1000)
+    </script>
+</html>

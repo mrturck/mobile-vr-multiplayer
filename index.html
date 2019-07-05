@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Wiskar</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin:700">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+</head>
+
+<body id="page-top">
+    <div>
+    <!-- <nav class="navbar navbar-light navbar-expand-md navbar navbar-expand-lg" style='position:absolute;top:0px;background:#000; width:100%; z-index:99;max-height:10%'id="mainNav">
+        <div class="container"><a class="navbar-brand js-scroll-trigger" href="#">Virtual World</a><button class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation" value="Menu"><i class="fa fa-bars"></i></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link active js-scroll-trigger" href="#about"></a></li>
+                    <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link js-scroll-trigger" href="#download"></a></li>
+                    <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link js-scroll-trigger" href="#contact">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+    <header class="masthead" style='position:absolute;top:0px; z-index:99; background:rgba(255,255,255, 0)'> 
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div style='background: rgba(0,0,0,0)' class="col-lg-8 mx-auto">
+                        <h1 class="brand-heading" style="color: #000000;">Virtual World</h1>
+                        <p class="intro-text" style="color: #000;">Your imagination awaits..</p>
+                        <a href='./list' style='text-decoration:none' ><button class="btn btn-primary btn-lg btn-default" type="button">Begin the adventure</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+    <a-scene vr-mode-ui="enabled: false" style='position:absolute; top:0px' background="color: #FAFAFA">
+            <a-entity camera look-controls='enabled: false' position='0 1.6 0'></a-entity>
+            <a-sky color='fff'></a-sky>
+            <a-box position="0 0.5 -3" rotation="0 45 0" color="#4CC3D9" scale="0.3 0.3 0.3" >
+              <a-animation attribute="rotation" direction="alternate-reverse" dur="10000" fill="forwards"
+                     to="360 360 60" easing="linear" repeat="indefinite"></a-animation>
+              <a-animation attribute="position" direction="alternate-reverse" dur="10000"
+                     fill="forwards" to="-1 3 -3" easing="linear" repeat="indefinite"></a-animation>
+            </a-box>
+            
+            <a-cylinder scale="0.3 0.3 0.3" position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" >
+              <a-animation attribute="rotation" direction="alternate-reverse" dur="10000" fill="forwards"
+                     to="360 360 60" easing="linear" repeat="indefinite"></a-animation>
+              <a-animation attribute="position" direction="alternate-reverse" dur="10000"
+                     fill="forwards" to="1 5 -3" easing="linear" repeat="indefinite"></a-animation>
+            </a-cylinder>
+            <a-octahedron scale='0.1 0.1 0.1' position='-1.5 1 -5' color="#FF926B" radius="5">
+            <a-animation attribute="rotation" direction="alternate-reverse" dur="10000" fill="forwards"
+                     to="360 360 60" easing="linear" repeat="indefinite"></a-animation>
+              <a-animation attribute="position" direction="alternate-reverse" dur="10000"
+                     fill="forwards" to="1 4 -3" easing="linear" repeat="indefinite"></a-animation>
+            </a-octahedron>
+      
+            <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#fff" ></a-plane>
+          </a-scene>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="assets/js/script.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase.js"></script>
+    <script>
+    var config = {
+    apiKey: "AIzaSyARjDjLcz6DT2_B2XTSFhJTzCCNH8_XbZ0",
+    authDomain: "pioneer-f39c1.firebaseapp.com",
+    databaseURL: "https://pioneer-f39c1.firebaseio.com",
+    projectId: "pioneer-f39c1",
+    storageBucket: "pioneer-f39c1.appspot.com",
+    messagingSenderId: "1007617369976"
+    };
+    firebase.initializeApp(config);
+    var provider = new firebase.auth.GoogleAuthProvider();
+
+    login = () => {
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    var token = result.credential.accessToken;
+    // The signed-in user info.
+    var user = result.user;
+    // ...
+    }).catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
+    });
+    }
+
+    </script>
+</body>
+
+</html>
