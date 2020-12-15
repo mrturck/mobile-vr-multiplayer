@@ -1,7 +1,5 @@
 # mobile-vr-multiplayer
 
-See live demo at https://pioneer-jbtvofwyqh.now.sh/
-
 ![Screenshot](https://github.com/mrturck/mobile-vr-multiplayer/blob/master/public/img/screenshot.png?raw=true)
 
 ## Interact with others in a multi-terrain VR world!
